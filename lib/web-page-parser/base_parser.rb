@@ -2,7 +2,6 @@
 module WebPageParser
   require 'digest'
   require 'date'
-  require 'oniguruma'
   require 'htmlentities'
   require 'iconv'
 
@@ -15,7 +14,6 @@ module WebPageParser
   # with the *_processor methods.
   #
   class BaseParser
-    include Oniguruma
 
     attr_reader :url, :guid, :page
 
@@ -32,7 +30,7 @@ module WebPageParser
     
     # The regular expression to find all characters that should be
     # removed from any content.
-    KILL_CHARS_RE = ORegexp.new('[\n\r]+')
+    KILL_CHARS_RE = Regexp.new('[\n\r]+')
     
     # The object used to turn HTML entities into real charaters
     HTML_ENTITIES_DECODER = HTMLEntities.new
@@ -86,9 +84,9 @@ module WebPageParser
     # overridden if necessary.
     def content
       return @content if @content
-      matches = class_const(:CONTENT_RE).match(page)
-      if matches
-        @content = class_const(:KILL_CHARS_RE).gsub(matches[1].to_s, '')
+      if matches = class_const(:CONTENT_RE).match(page)
+        #console.puts "\n\n\n\n\nIN MATCHES\n\n\n\n\n"
+        @content = matches[1].to_s.gsub(class_const(:KILL_CHARS_RE), '')
         @content = iconv(@content)
         content_processor
         @content.collect! { |p| decode_entities(p.strip) }
@@ -108,7 +106,7 @@ module WebPageParser
 
     # Convert html entities to unicode
     def decode_entities(s)
-      HTML_ENTITIES_DECODER.decode(s)
+      HTML_ENTITIES_DECODER.decode(s.force_encoding('UTF-8'))
     end
     
     private
