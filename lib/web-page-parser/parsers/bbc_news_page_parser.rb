@@ -15,9 +15,9 @@ module WebPageParser
 
       def self.create(options = {})
         # if options[:url].match(/sport\/\d\//)
-          BbcSportsPageParserV4.new(options)
+          # BbcSportsPageParserV4.new(options)
         # else
-          # BbcNewsPageParserV4.new(options)
+          BbcNewsPageParserV4.new(options)
         # end
       end
     end
