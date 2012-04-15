@@ -52,7 +52,7 @@ module WebPageParser
       if matches = class_const(:TITLE_RE).match(page)
         @title = matches[1].to_s.strip
         title_processor
-        @title = iconv(@title)
+        @title = @title.force_encoding('UTF-8')
         @title = decode_entities(@title)
       end
     end
@@ -87,7 +87,7 @@ module WebPageParser
       if matches = class_const(:CONTENT_RE).match(page)
         #console.puts "\n\n\n\n\nIN MATCHES\n\n\n\n\n"
         @content = matches[1].to_s.gsub(class_const(:KILL_CHARS_RE), '')
-        @content = iconv(@content)
+        @content = @cntent.force_encoding('UTF-8')
         content_processor
         @content.collect! { |p| decode_entities(p.strip) }
         @content.delete_if { |p| p == '' or p.nil? }        
