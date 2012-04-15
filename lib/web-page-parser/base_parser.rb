@@ -3,7 +3,6 @@ module WebPageParser
   require 'digest'
   require 'date'
   require 'htmlentities'
-  require 'iconv'
 
   # BaseParse is designed to be sub-classed to write new parsers.  It
   # provides some basic help but most of the work needs to be done by
@@ -16,8 +15,6 @@ module WebPageParser
   class BaseParser
 
     attr_reader :url, :guid, :page
-
-    ICONV = Iconv.new("utf8", "iso-8859-1")
 
     # The regular expression to extract the title
     TITLE_RE = //
@@ -85,9 +82,8 @@ module WebPageParser
     def content
       return @content if @content
       if matches = class_const(:CONTENT_RE).match(page)
-        #console.puts "\n\n\n\n\nIN MATCHES\n\n\n\n\n"
         @content = matches[1].to_s.gsub(class_const(:KILL_CHARS_RE), '')
-        @content = @cntent.force_encoding('UTF-8')
+        @content = @content.force_encoding('UTF-8')
         content_processor
         @content.collect! { |p| decode_entities(p.strip) }
         @content.delete_if { |p| p == '' or p.nil? }        
@@ -117,12 +113,9 @@ module WebPageParser
     end
 
     # Convert the encoding of the given text if necessary
+    ## Left in for legacy parsers, iconv is dead, long live force_encode
     def iconv(s)
-      if class_const(:ICONV) and ICONV
-        class_const(:ICONV).iconv(s)
-      else
-        s        
-      end
+      s.force_encoding('UTF-8')
     end
 
     # Custom content parsing. It should split the @content up into an
