@@ -99,7 +99,6 @@ module WebPageParser
       CONTENT_RE = Regexp.new('<div id="story\-body">(.*?)<div class="bookmark-list">', Regexp::MULTILINE)
       STRIP_FEATURES_RE = Regexp.new('<div class="story-feature">(.*?)</div>', Regexp::MULTILINE)
       STRIP_MARKET_DATA_WIDGET_RE = Regexp.new('<\!\-\- S MD_WIDGET.*? E MD_WIDGET \-\->')
-      ICONV = nil # BBC news is now in utf8
       
       def content_processor
         @content = @content.gsub(STRIP_FEATURES_RE, '')

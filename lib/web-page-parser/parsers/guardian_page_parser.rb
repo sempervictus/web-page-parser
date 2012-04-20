@@ -17,7 +17,6 @@ module WebPageParser
   # be used for backwards compatability with News Sniffer and is
   # never supplied for use by a factory.
   class GuardianPageParserV1 < WebPageParser::BaseParser
-    ICONV = nil
     TITLE_RE = Regexp.new('<meta property="og:title" content="(.*)"', Regexp::IGNORECASE)
     DATE_RE = Regexp.new('<meta property="article:published_time" content="(.*)"', Regexp::IGNORECASE)
     CONTENT_RE = Regexp.new('article-body-blocks">(.*?)<div id="related"', Regexp::MULTILINE)
