@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
   s.name    = 'web-page-parser'
-  s.version = '0.25'
-  s.date    = '2012-04-21'
+  s.version = '0.26'
+  s.date    = '2012-07-11'
   s.rubyforge_project = "web-page-parser"
   
   s.summary = "A parser for web pages"
   s.description = "A Ruby library to parse the content out of web pages, such as BBC News pages.  Used by the News Sniffer project. Rewritten for Ruby 1.9+"
   
   s.authors  = ['John Leach', 'RageLtMan']
-  s.email    = 'john@johnleach.co.uk', 'rageltman [at] sempervictus]'
+  s.email    = 'john@johnleach.co.uk', 'rageltman [at] sempervictus'
   s.homepage = 'https://github.com/sempervictus/web-page-parser'
   
   s.has_rdoc = true

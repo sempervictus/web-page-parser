@@ -46,7 +46,7 @@ module WebPageParser
     # be done by overriding the title_processor method.
     def title
       return @title if @title
-      if matches = class_const(:TITLE_RE).match(page)
+      if matches = class_const(:TITLE_RE).match(page.force_encoding('UTF-8'))
         @title = matches[1].to_s.strip
         title_processor
         @title = @title.force_encoding('UTF-8')
@@ -62,7 +62,7 @@ module WebPageParser
     # object needs to be done by the date_processor method.
     def date
       return @date if @date
-      if matches = class_const(:DATE_RE).match(page)
+      if matches = class_const(:DATE_RE).match(page.force_encoding('UTF-8'))
         @date = matches[1].to_s.strip
         date_processor
         @date
@@ -81,7 +81,7 @@ module WebPageParser
     # overridden if necessary.
     def content
       return @content if @content
-      if matches = class_const(:CONTENT_RE).match(page)
+      if matches = class_const(:CONTENT_RE).match(page.force_encoding('UTF-8'))
         @content = matches[1].to_s.gsub(class_const(:KILL_CHARS_RE), '')
         @content = @content.force_encoding('UTF-8')
         content_processor
