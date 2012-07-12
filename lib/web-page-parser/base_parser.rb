@@ -46,10 +46,10 @@ module WebPageParser
     # be done by overriding the title_processor method.
     def title
       return @title if @title
-      if matches = class_const(:TITLE_RE).match(page.force_encoding('UTF-8'))
+      if matches = class_const(:TITLE_RE).match(page.unpack("C*").pack("U*"))
         @title = matches[1].to_s.strip
         title_processor
-        @title = @title.force_encoding('UTF-8')
+        @title = @title.unpack("C*").pack("U*")
         @title = decode_entities(@title)
       end
     end
@@ -62,7 +62,7 @@ module WebPageParser
     # object needs to be done by the date_processor method.
     def date
       return @date if @date
-      if matches = class_const(:DATE_RE).match(page.force_encoding('UTF-8'))
+      if matches = class_const(:DATE_RE).match(page.unpack("C*").pack("U*"))
         @date = matches[1].to_s.strip
         date_processor
         @date
@@ -81,9 +81,9 @@ module WebPageParser
     # overridden if necessary.
     def content
       return @content if @content
-      if matches = class_const(:CONTENT_RE).match(page.force_encoding('UTF-8'))
+      if matches = class_const(:CONTENT_RE).match(page.unpack("C*").pack("U*"))
         @content = matches[1].to_s.gsub(class_const(:KILL_CHARS_RE), '')
-        @content = @content.force_encoding('UTF-8')
+        @content = @content.unpack("C*").pack("U*")
         content_processor
         @content.collect! { |p| decode_entities(p.strip) }
         @content.delete_if { |p| p == '' or p.nil? }        
@@ -102,7 +102,7 @@ module WebPageParser
 
     # Convert html entities to unicode
     def decode_entities(s)
-      HTML_ENTITIES_DECODER.decode(s.force_encoding('UTF-8'))
+      HTML_ENTITIES_DECODER.decode(s.unpack("C*").pack("U*"))
     end
     
     private
@@ -115,7 +115,7 @@ module WebPageParser
     # Convert the encoding of the given text if necessary
     ## Left in for legacy parsers, iconv is dead, long live force_encode
     def iconv(s)
-      s.force_encoding('UTF-8')
+      s.unpack("C*").pack("U*")
     end
 
     # Custom content parsing. It should split the @content up into an
